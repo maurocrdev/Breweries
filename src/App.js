@@ -1,10 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
+import {BreweriesList, Header,Footer,Search} from './components/index';
 
 function App() {
   return (
     <div>
-      <p>here</p>
+      <Header/>
+      <Search/>
+      <BreweriesList/>
+      <Footer/>
     </div>
   );
 }
