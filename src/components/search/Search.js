@@ -1,37 +1,39 @@
-import React, { Component,useState } from 'react'
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-const api = axios.create({
-    baseURL:`https://api.openbrewerydb.org/breweries`
-});
+function Search() {
 
+  const[data, setData] = useState([]);
+  const[searchTerm, setSearchTerm] = useState('')
 
-export class Search extends Component {
-    state={
-        breweries:[]
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(
+        "https://api.openbrewerydb.org/breweries"
+      ).then((response) => response.json());
+      setData(result);
+    };
+    fetchData();
+  },[]);
 
-    constructor(){
-        super();
-        api.get('/').then(res=>{
-            console.log(res.data)
-            this.setState({breweries:res.data})
-        })
-    }
-
-    render() {
-
-        
-
-        return (
-            <div>
-                <input type="text" placeholder="Search" />
-                {
-                    this.state.breweries.map(breweries=> <h2 key={breweries.id}>{breweries.name}</h2>)}
-            </div>
-        )
-    }
+  return (
+    <div>
+      <input type="text" placeholder="Search" onChange={(event) =>{setSearchTerm(event.target.value)}} />
+      {
+          data.filter((val)=>{
+              if(searchTerm === ""){
+                  return val
+              }else if(val.name.toLowerCase().includes(searchTerm.toLowerCase())){
+                  return val
+              }
+          }).map((val,id)=>(
+              <div key={id}>
+                  <h2>{val.name}</h2>
+              </div>
+          ))
+      }
+    </div>
+  );
 }
 
-
-export default Search
+export default Search;
