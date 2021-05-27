@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
+import MoreInfo from '../moreinfo/index';
+
+import './Search.css'
 
 function Search() {
 
@@ -18,8 +21,12 @@ function Search() {
 
   return (
     <div>
-      <input type="text" placeholder="Search" onChange={(event) =>{setSearchTerm(event.target.value)}} />
+      <div className="search">
+      <input className="search" type="text" placeholder="Search" onChange={(event) =>{setSearchTerm(event.target.value)}} />
+      </div>
+      <div>
       {
+          // eslint-disable-next-line array-callback-return
           data.filter((val)=>{
               if(searchTerm === ""){
                   return val
@@ -27,11 +34,12 @@ function Search() {
                   return val
               }
           }).map((val,id)=>(
-              <div key={id}>
-                  <h2>{val.name}</h2>
-              </div>
+
+            <MoreInfo key={id} data={val}/>
+            
           ))
       }
+      </div>
     </div>
   );
 }
